@@ -21,7 +21,7 @@ Install the wireguard-tools and qrencode.
 An example for Arch:
 
 ```
-sudo pacman -S wireguard-tools wireguard-tools qrencode
+sudo pacman -S wireguard-tools qrencode
 ```
 
 Place the files of this project in any directory of your php-enabled web server.
