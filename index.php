@@ -1,4 +1,9 @@
-<?php require_once('config.php'); ?>
+<?php 
+  if (!extension_loaded('sodium')) {
+    die('Error: Sodium extension is required. Please install php-sodium package.');
+  }
+  require_once('config.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">

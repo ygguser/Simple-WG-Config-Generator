@@ -4,6 +4,32 @@ function sanitize_input($data) {
     return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
+// WireGuard key generation using libsodium
+function generate_wireguard_keys() {
+    // Generate private key (32 random bytes)
+    $privateKey = random_bytes(SODIUM_CRYPTO_BOX_SECRETKEYBYTES);
+    
+    // Derive public key from private key using Curve25519
+    $publicKey = sodium_crypto_box_publickey_from_secretkey($privateKey);
+    
+    // Convert to base64 (WireGuard format)
+    return [
+        'private' => base64_encode($privateKey),
+        'public' => base64_encode($publicKey)
+    ];
+}
+
+// Validate WireGuard key format
+function validate_wireguard_key($key) {
+    if (empty($key)) return false;
+    
+    // WireGuard keys are base64 encoded 32-byte values
+    $decoded = base64_decode($key, true);
+    if ($decoded === false) return false;
+    
+    return strlen($decoded) === 32;
+}
+
 // Clearing all input parameters
 $server_public_address = sanitize_input($_POST['server_public_address'] ?? '');
 $server_listen_port = sanitize_input($_POST['server_listen_port'] ?? '');
@@ -19,26 +45,30 @@ $client_post_down = sanitize_input($_POST['client_post_down'] ?? '');
 $client_allowed_ips = sanitize_input($_POST['client_allowed_ips'] ?? '');
 $client_keep_alive = sanitize_input($_POST['client_keep_alive'] ?? '');
 
-// Generating keys for the server (only if not received)
-if (!empty($server_private_key)) {
+// Generating keys for the server (only if not received and valid)
+if (!empty($server_private_key) && validate_wireguard_key($server_private_key)) {
     $serverPrivateKey = $server_private_key;
+    
+    // If private key is provided but public key is not, derive it
+    if (empty($server_public_key) || !validate_wireguard_key($server_public_key)) {
+        $privateKeyBinary = base64_decode($server_private_key);
+        $publicKeyBinary = sodium_crypto_box_publickey_from_secretkey($privateKeyBinary);
+        $serverPublicKey = base64_encode($publicKeyBinary);
+    } else {
+        $serverPublicKey = $server_public_key;
+    }
 } else {
-    $serverPrivateKey = shell_exec('wg genkey');
-    $serverPrivateKey = trim($serverPrivateKey);
-}
-
-if (!empty($server_public_key)) {
-    $serverPublicKey = $server_public_key;
-} else {
-    $serverPublicKey = shell_exec("echo " . escapeshellarg($serverPrivateKey) . " | wg pubkey");
-    $serverPublicKey = trim($serverPublicKey);
+    // Generate new server keys
+    $serverKeys = generate_wireguard_keys();
+    $serverPrivateKey = $serverKeys['private'];
+    $serverPublicKey = $serverKeys['public'];
 }
 
 // Generating keys for the client
-$clientPrivateKey = shell_exec('wg genkey');
-$clientPrivateKey = trim($clientPrivateKey);
-$clientPublicKey = shell_exec("echo " . escapeshellarg($clientPrivateKey) . " | wg pubkey");
-$clientPublicKey = trim($clientPublicKey);
+$clientKeys = generate_wireguard_keys();
+$clientPrivateKey = $clientKeys['private'];
+$clientPublicKey = $clientKeys['public'];
+
 
 // Creating the server configuration
 $serverConf = "[Interface]\n";

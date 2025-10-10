@@ -8,18 +8,21 @@ How it looks at work:
 
 ## Dependencies
 
-- php
-- wireguard-tools
+- php-sodium
 
 ## Installation
 
-Install the wireguard-tools.
-
-An example for Arch:
+Checking if sodium is installed:
 
 ```
-sudo pacman -S wireguard-tools
+php -m | grep sodium
 ```
+
+If you see `sodium` in the output, it means that it is already installed.
+
+If the output is empty, install it:
+
+Debian/Ubuntu: `sudo apt update && sudo apt install php-sodium -y`
 
 Place the files of this project in any directory of your php-enabled web server.
 
