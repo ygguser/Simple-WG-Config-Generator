@@ -35,7 +35,7 @@ Navigate `index.php`, fill in the fields on the form and click **Generate**.
 
 You will see the generated server and client configuration files, as well as a QR code for client.
 
-You can specify your default values in `config.php` for fields and then quickly generate new configs for new clients. The `[Peer]` section on the server will have to be added manually, there is no such functionality here. The existing Wireguard configuration on the server is not used here in any way. However, you can specify the public and private keys of the existing server in the fields of the form so that they can be used when creating configs.
+You can specify your default values in `config.php` for fields and then quickly generate new configs for new clients. The `[Peer]` section on the server will have to be added manually, there is no such functionality here. The existing Wireguard configuration on the server is not used here in any way. However, you can specify the public and private keys of the existing server in the fields of the form (or in config.php) so that they can be used when creating configs.
 
 ## Recommendations
 
