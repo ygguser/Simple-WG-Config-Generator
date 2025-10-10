@@ -78,20 +78,6 @@ $clientConf .= "Endpoint = " . $server_public_address . ":" . $server_listen_por
 $clientConf .= "AllowedIPs = " . $client_allowed_ips . "\n";
 $clientConf .= "PersistentKeepAlive = " . $client_keep_alive . "\n";
 
-// Generating a QR code
-$tempFilename = '/tmp/wg_' . uniqid() . '.png';
-$command = "echo " . escapeshellarg($clientConf) . " | qrencode -t png -o " . escapeshellarg($tempFilename);
-shell_exec($command);
-
-// Read the QR code and encode it in base64
-$qrCodeBase64 = '';
-if (file_exists($tempFilename)) {
-    $qrImage = file_get_contents($tempFilename);
-    $qrCodeBase64 = base64_encode($qrImage);
-    // Удаляем временный файл
-    unlink($tempFilename);
-}
-
 // Return the HTML with the results 
 ?>
 <div class="result-section">
@@ -103,13 +89,11 @@ if (file_exists($tempFilename)) {
     <h3>Client config</h3>
     <div class="client-container">
         <div class="client-config">
-            <textarea class="config-textarea" readonly><?php echo $clientConf; ?></textarea>
+            <textarea id="clientconf" class="config-textarea" readonly><?php echo $clientConf; ?></textarea>
         </div>
-        <?php if (!empty($qrCodeBase64)): ?>
         <div class="qr-code">
-            <img src="data:image/png;base64,<?php echo $qrCodeBase64; ?>" alt="QR Code for Client Config">
+            <canvas id="qr"></canvas>
             <p>Scan to import client config</p>
         </div>
-        <?php endif; ?>
     </div>
 </div>
