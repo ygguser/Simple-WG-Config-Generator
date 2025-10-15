@@ -1,5 +1,12 @@
 <?php
 
+//checking direct access to the script
+if ( realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME']) ) {
+    //exit('Access denied');
+    http_response_code(404);
+    exit;
+}
+
 // default values
 $server_public_address = 'myserver.com';
 $server_listen_port = '51820';
@@ -17,4 +24,5 @@ $client_allowed_ips = '0.0.0.0/0';
 $client_keep_alive = '30';
 
 ?>
+
 
