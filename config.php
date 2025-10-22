@@ -17,12 +17,13 @@ $server_post_up = 'iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %
 $server_post_down = 'iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE';
 
 $client_peer_ip = '10.0.0.2/32';
-$client_dns = '94.140.14.15, 94.140.15.16'; //adguard-dns.io/en/public-dns.html
+$client_dns = '94.140.14.14, 94.140.15.15'; //adguard-dns.io/en/public-dns.html
 $client_post_up = '';
 $client_post_down = '';
 $client_allowed_ips = '0.0.0.0/0';
 $client_keep_alive = '30';
 
 ?>
+
 
 
