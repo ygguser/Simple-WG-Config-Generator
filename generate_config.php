@@ -86,7 +86,7 @@ if (!empty($server_post_down)) {
 
 $serverConf .= "\n[Peer]\n";
 $serverConf .= "PublicKey = " . $clientPublicKey . "\n";
-$serverConf .= "AllowedIPs = " . $client_allowed_ips . "\n";
+$serverConf .= "AllowedIPs = " . $client_peer_ip . "\n";
 
 // Creating the client configuration
 $clientConf = "[Interface]\n";
@@ -126,4 +126,5 @@ $clientConf .= "PersistentKeepAlive = " . $client_keep_alive . "\n";
             <p>Scan to import client config</p>
         </div>
     </div>
+
 </div>
