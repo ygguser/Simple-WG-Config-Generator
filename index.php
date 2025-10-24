@@ -146,7 +146,7 @@
         /* optional fields style */
         .optional-field {
             opacity: 0.8;
-            background-color: #f8f8f8;
+            /* background-color: #f8f8f8; */
         }
         /* Adaptability for mobile devices */
         @media (max-width: 768px) {
@@ -292,4 +292,5 @@
         });
     </script>
 </body>
+
 </html>
