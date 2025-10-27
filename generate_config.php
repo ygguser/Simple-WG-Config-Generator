@@ -1,4 +1,5 @@
 <?php
+
 // This function is for clearing input data
 function sanitize_input($data) {
     return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
@@ -126,5 +127,4 @@ $clientConf .= "PersistentKeepAlive = " . $client_keep_alive . "\n";
             <p>Scan to import client config</p>
         </div>
     </div>
-
 </div>
