@@ -31,8 +31,8 @@ $conf_server_peer_ip = '10.0.0.1/24';
 $conf_server_private_key = '';
 $conf_server_public_key = '';
 $conf_server_interface_name = 'ens3';
-$conf_server_post_up = "iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o $server_interface_name -j MASQUERADE";
-$conf_server_post_down = "iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o $server_interface_name -j MASQUERADE";
+$conf_server_post_up = "iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o $conf_server_interface_name -j MASQUERADE";
+$conf_server_post_down = "iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o $conf_server_interface_name -j MASQUERADE";
 
 $conf_client_peer_ip = '10.0.0.2/32';
 $conf_client_dns = '94.140.14.14, 94.140.15.15'; //adguard-dns.io/en/public-dns.html
@@ -42,6 +42,7 @@ $conf_client_allowed_ips = '0.0.0.0/0';
 $conf_client_keep_alive = '30';
 
 ?>
+
 
 
 
