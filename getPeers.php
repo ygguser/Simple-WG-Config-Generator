@@ -1,10 +1,5 @@
 <?php
 
-//todo: 
-//кнопку воровнять с надписью
-//
-//обновить репку
-
 require_once('config.php');
 
 $content = file_get_contents($conf_wg_conf_path);
